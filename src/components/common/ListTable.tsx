@@ -13,8 +13,8 @@ type Column = {
   label?: string;
   width?: number; // percentage
   filter?: boolean | ((entity: Function) => string);
-  display?: (entity: string | Function) => React.ReactNode;
-  link?: (entity: any) => string | { to: string; [key: string]: any };
+  display?: (entity: any) => React.ReactNode;
+  link?: (entity: any) => string | { to: string; [key: string]: any } | null;
   sort?: boolean | ((a: any, b: any) => number);
   ellipsis?: number; // number of characters to show before truncating with ellipsis
 };
@@ -45,7 +45,7 @@ export class Sort {
   }
 }
 
-export const Arrows = {
+export const Arrows : Record<string, string> = {
   ASC: '\u21D3', // Down arrow
   DESC: '\u21D1', // Up arrow
   NONE: '\u21D5', // Double arrow
@@ -166,7 +166,9 @@ const ListTableRow : React.FC<{ columns: Column[]; entity: any }> = ({ columns, 
       }
       if (column.link) {
         const link = column.link(entity);
-        display = typeof link === 'object' ? <Link {...link}>{display}</Link> : <Link to={link}>{display}</Link>;
+        if (link) {
+          display = typeof link === 'object' ? <Link {...link}>{display}</Link> : <Link to={link}>{display}</Link>;
+        }
       }
 
       return (
