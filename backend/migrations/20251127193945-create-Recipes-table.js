@@ -43,6 +43,9 @@ export default {
         instructions: {
           type: Sequelize.TEXT,
         },
+        notes: {
+          type: Sequelize.TEXT,
+        },
         image: {
           type: Sequelize.BLOB,
         },

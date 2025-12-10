@@ -48,6 +48,9 @@ Recipe.init(
       type: DataTypes.TEXT,
       allowNull: false
     },
+    notes: {
+      type: DataTypes.TEXT,
+    },
     image: {
       type: DataTypes.BLOB,
     },

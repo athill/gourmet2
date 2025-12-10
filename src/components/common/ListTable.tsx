@@ -191,7 +191,7 @@ interface ListTableProps {
 const ListTable: React.FC<ListTableProps> = ({ id = 'list-table', columns, data, defaultSort }) => {
   const [searchParams, updateSearchParams] = useUpdateSearchParams();
   const { filter } = useFilter();
-  const { paginationSlice, PaginationSummary, Pagination } = usePagination();
+  const { paginationSlice, PaginationSummary, Pagination, onChangePage, onChangePageSize } = usePagination();
   // Determine widths of fields without explicit (percentage) widths
   const reservedWidths : Record<string, number> = columns.reduce(
     (acc, value) => (value.width ? { ...acc, [value.field]: value.width } : acc),

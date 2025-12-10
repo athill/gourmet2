@@ -30,7 +30,8 @@
     "react-router": "7.9.6",
     "react-router-bootstrap": "0.26.3",
     "react-router-dom": "7.9.6",
-    "sequelize": "6.37.7"
+    "sequelize": "6.37.7",
+    "yup": "1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",

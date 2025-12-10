@@ -54,8 +54,7 @@ export const usePagination = () => {
     }
     return page;
   };
-  const onChangePage = (page: number) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const onChangePage = (page: number) => {
     updateSearchParams({
       page,
     });

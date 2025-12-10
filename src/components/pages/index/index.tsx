@@ -41,7 +41,11 @@ const IndexPage = () => {
     <ListTablePrefix entityName="Recipe" entityPath="/recipes" />
     <ListTable
       columns={[
-        { field: 'title', filter: true },
+        {
+          field: 'title',
+          link: (entity) => `/recipes/${entity.id}`,
+          filter: true
+        },
         { field: 'category', filter: true },
         { field: 'cuisine', filter: true },
         {
