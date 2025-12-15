@@ -1,5 +1,5 @@
 
-import { Button, ButtonGroup,  Col, Form, Row,  Table } from 'react-bootstrap';
+import { Button, ButtonGroup,  Col, Form, InputGroup, Row,  Table } from 'react-bootstrap';
 import { capitalCase } from 'change-case';
 
 // EmptyState, Switch,
@@ -88,16 +88,17 @@ export const ListTablePrefix: React.FC<ListTablePrefixProps> = ({ entityName, en
   return (
     <Row className="rvt-m-bottom-sm">
       <Col>
-      <Form.Group>
-        <Form.Control
-          type="text"
-          name="filter"
-          placeholder="Filter"
-          value={filter}
-          onChange={handleFilterChange}
-          className="rvt-m-bottom-md"
-        />
-        </Form.Group>
+        <InputGroup>
+          <Form.Control
+            type="text"
+            name="filter"
+            placeholder="Filter"
+            value={filter}
+            onChange={handleFilterChange}
+            className="rvt-m-bottom-md"
+          />
+          <Button variant="secondary" className="rvt-p-left-0" onClick={() => handleFilterChange({ target: { value: '' } } as any)}>X</Button>
+        </InputGroup>
       </Col>
       {!!Switches && Switches}
       <Col className="rvt-text-right">
