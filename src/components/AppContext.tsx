@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const AppContext = createContext({ categories: [] as string[], cuisines: [] as string[], units: [] as string[] });
+const AppContext = createContext({ categories: [] as string[], cuisines: [] as string[], units: [] as string[], yieldsUnits: [] as string[] });
 
 export default AppContext;

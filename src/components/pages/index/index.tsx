@@ -63,7 +63,11 @@ const IndexPage = () => {
             return linkA.localeCompare(linkB);
           }
         },
-        { field: 'rating', sort: (a, b) => a.rating - b.rating },
+        {
+          field: 'rating',
+          sort: (a, b) => a.rating - b.rating,
+          display: (entity) => entity.rating > 0 ? '★'.repeat(entity.rating) : 'No Rating'
+        },
         { field: 'edit', sort: false, display: (entity) => <LinkContainer to={`/recipes/${entity.id}/edit`}><Button>Update</Button></LinkContainer> },
         { field: 'delete', sort: false, display: (entity) => <Button variant="danger" onClick={() => deleteRecipe(entity)}>Delete</Button> },
       ]}

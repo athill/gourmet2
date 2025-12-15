@@ -1,5 +1,5 @@
 
-import { ButtonGroup,  Col, Form, Row,  Table } from 'react-bootstrap';
+import { Button, ButtonGroup,  Col, Form, Row,  Table } from 'react-bootstrap';
 import { capitalCase } from 'change-case';
 
 // EmptyState, Switch,
@@ -7,6 +7,7 @@ import { capitalCase } from 'change-case';
 import Link from './Link.tsx';
 import { usePagination } from './PaginationControls';
 import { useFilter, useUpdateSearchParams } from '../../hooks/param-hooks';
+import { useNavigate } from 'react-router-dom';
 
 type Column = {
   field: string;
@@ -83,6 +84,7 @@ interface ListTablePrefixProps {
 
 export const ListTablePrefix: React.FC<ListTablePrefixProps> = ({ entityName, entityPath, Switches }) => {
   const { filter, handleFilterChange } = useFilter();
+  const navigate = useNavigate();
   return (
     <Row className="rvt-m-bottom-sm">
       <Col>
@@ -100,13 +102,17 @@ export const ListTablePrefix: React.FC<ListTablePrefixProps> = ({ entityName, en
       {!!Switches && Switches}
       <Col className="rvt-text-right">
         <fieldset>
-          <ButtonGroup>
+          <Button variant="secondary" onClick={() => navigate(`${entityPath}/new`)} className="rvt-m-right-sm">
+            New {entityName}
+          </Button>
+          {/* <ButtonGroup>
+
             <Link to={`${entityPath}/new`} className="rvt-button rvt-button--primary">
               <span className="rvt-hide-md-down">
                 New {entityName}
               </span>
             </Link>
-          </ButtonGroup>
+          </ButtonGroup> */}
         </fieldset>
       </Col>
     </Row>

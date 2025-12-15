@@ -34,7 +34,6 @@ class Exporter {
   }
 
   output(string) {
-    // console.log('Outputting string:', string, this.indent);
     return '\t'.repeat(this.indent) + string + '\n';
   }
 
@@ -80,22 +79,6 @@ class Exporter {
         xml += this.ctag('ingredient');
       });
       xml += this.ctag('ingredient-list');
-
-      // Object.entries(recipe).forEach(([key, value]) => {
-      //   if (key === 'ingredients') {
-      //     xml += this.otag('ingredient-list');
-      //     value.forEach((ingredient) => {
-      //       xml += this.otag('ingredient');
-      //       Object.entries(ingredient).forEach(([ingKey, ingValue]) => {
-      //         xml += '  '.repeat(this.indent + 1) + `<${ingKey}>${ingValue}</${ingKey}>\n`;
-      //       });
-      //       xml += this.ctag('ingredient');
-      //     });
-      //     xml += this.ctag('ingredient-list');
-      //   } else {
-      //     xml += `${this.otag(key)}${value}\n${this.ctag(key)}`;
-      //   }
-      // });
       xml += this.ctag('recipe');
     });
     xml += this.ctag('recipe-list');

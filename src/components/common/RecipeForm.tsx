@@ -1,29 +1,34 @@
 import { Formik , Field as FormikField, FieldArray} from 'formik';
-import { Button, InputGroup, Modal } from 'react-bootstrap';
+import { Button, Col, Container, InputGroup, Modal, Row } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import * as Yup from 'yup';
+import { Rating } from 'react-simple-star-rating'
 
-import Field, { FieldComponent } from '../form/fields';
+import { Field, FieldComponent, FieldGroup, Input, Textarea } from '../form/fields';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext';
+import { useNavigate } from 'react-router';
 
 
- const validationSchema = Yup.object().shape({
+const timeRegex = /\d+(\/\d+)?(\.\d+)? (seconds?|hours?|minutes?|days?)/;
+const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
-  yieldAmount: Yup.number().min(0, 'Yield amount must be non-negative').required('Yield amount is required'),
-  yield: Yup.string().required('Yield unit is required'),
+  yieldsQuantity: Yup.number().min(0, 'Yield amount must be non-negative').required('Yield amount is required'),
+  yieldsUnit: Yup.string().required('Yield unit is required'),
   category: Yup.string().required('Category is required'),
-  preptime: Yup.string().matches(/\d+(\.\d+)? (seconds|hours|minutes|days)/, 'Preparation time must be in the format "number unit", e.g., "30 minutes"'),
-  cooktime: Yup.string().matches(/\d+(\.\d+)? (seconds|hours|minutes|days)/, 'Cooking time must be in the format "number unit", e.g., "1 hour"'),
+  preptime: Yup.string().matches(timeRegex, 'Preparation time must be in the format "number unit", e.g., "30 minutes"'),
+  cooktime: Yup.string().matches(timeRegex, 'Cooking time must be in the format "number unit", e.g., "1 hour"'),
   cuisine: Yup.string().required('Cuisine is required'),
   rating: Yup.number().min(0.1, 'Rating must be at least 0.1').max(5, 'Rating cannot be more than 5'),
   source: Yup.string(),
-  link: Yup.string().url('Webpage must be a valid URL'),
+  // link: Yup.string().url('Webpage must be a valid URL'),
   instructions: Yup.string(),
   notes: Yup.string(),
 
  });
+
+
 
  const extractIngredients = (line: string, ingredientRegex: RegExp) => {
   const [ , amount, , unit, item] = line.match(ingredientRegex) || [];
@@ -31,15 +36,17 @@ import AppContext from '../AppContext';
 
 };
 
-type Props = {
+type RecipeFormProps = {
   initialValues: any;
   onSubmit: (values: any) => void | Promise<void>;
   buttonText?: string;
+  cancelUrl?: string;
 };
-const RecipeForm = ({ initialValues, onSubmit, buttonText = "Submit" }: Props) => {
+const RecipeForm = ({ initialValues, onSubmit, buttonText = "Submit", cancelUrl }: RecipeFormProps) => {
   const [ showModal, setShowModal ] = useState(false);
-  const { categories, cuisines, units } = useContext(AppContext);
+  const { categories, cuisines, units, yieldsUnits } = useContext(AppContext);
   const [ ingredientRegex, setIngredientsRegex ] = useState<RegExp | null>(null);
+  const navigate = useNavigate();
   useEffect(() => {
     if (units.length > 0) {
       const regex = new RegExp(`^([\\d\\/\\.]+\\s+)?\\s*((${units.join('|').replaceAll('.', '\\.')})\\s+)?(.+)$`);
@@ -58,13 +65,22 @@ const RecipeForm = ({ initialValues, onSubmit, buttonText = "Submit" }: Props) =
     setShowModal(false);
   }
 
-  // console.log({initialValues});
-
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={async (values) => {
+      console.log('Form values on submit:', values);
+      await onSubmit(values);
+    }}>
       {(formik) => (
         <>
-          <form onSubmit={formik.handleSubmit} noValidate>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            console.log('Form values on submit:', formik.values);
+            try {
+              formik.handleSubmit(e);
+            } catch (error) {
+              console.error('Error during form submission:', error);
+            }
+            }} noValidate>
 
             <Tabs
               defaultActiveKey="description"
@@ -73,69 +89,86 @@ const RecipeForm = ({ initialValues, onSubmit, buttonText = "Submit" }: Props) =
             >
               <Tab eventKey="description" title="Description">
                 <Field name="title" label="Title" />
-                <Field name="yield" label="Yield" FieldComponent={() => (
+                <FieldGroup controlId="yield" label="Yield">
                   <InputGroup>
-                    <FormikField as={FieldComponent} name="yieldAmount" type="number" size="sm" defaultValue={0.0} step="0.01" min="0" />
-                    <FormikField as={FieldComponent}  name="yield" />
+                    <Input name="yieldsQuantity" type="number" size="sm" step="0.01" min="0" />
+                    <Input name="yieldsUnit" options={yieldsUnits} />
                   </InputGroup>
-                )} />
+                </FieldGroup>
                 <Field name="category" label="Category" options={categories} />
                 <Field name="preptime" label="Preparation Time" pattern='\d+(\.\d+)? (seconds|hours|minutes|days)' />
                 <Field name="cooktime" label="Cooking Time" pattern='\d+(\.\d+)? (seconds|hours|minutes|days)' />
                 <Field name="cuisine" label="Cuisine" options={cuisines} />
-                <Field name="rating" label="Rating" type="number" defaultValue={0} step="1" min="0.1" max="5" size="sm" />
+                <FieldGroup controlId="rating" label="Rating">
+                  <>
+                    <Rating onClick={(rate: number) => formik.setFieldValue('rating', rate)} initialValue={formik.values.rating} />
+                    <FormikField name="rating" type="number" step="1" min="0.1" max="5" style={{ display: 'none' }} />
+                  </>
+                </FieldGroup>
                 <Field name="source" label="Source" />
                 <Field name="link" label="Webpage" type="url" />
               </Tab>
               <Tab eventKey="ingredients" title="Ingredients">
-                <div className="text-end">
-                  <Button type="button" onClick={() => setShowModal(true)}>Bulk Add</Button>
-                </div>
-                <FieldArray name="ingredients">
-                  {({ push, remove, form }) => (
-                    <div>
-                      <Modal show={showModal} onHide={() => setShowModal(false)}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Bulk Add Ingredients</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className="mb-3">
-                              <label htmlFor="new-ingredients" className="form-label">Ingredients (one per line, format: amount unit item)</label>
-                              <textarea className="form-control" id="new-ingredients" rows={5} placeholder="e.g.&#10;1 cup sugar&#10;2 tbsp olive oil&#10;3 large eggs"></textarea>
+                <Container>
+                  <Row>
+                    <Col className="text-end py-2">
+                      <Button variant="secondary" type="button" onClick={() => setShowModal(true)}>Bulk Add</Button>
+                    </Col>
+                  </Row>
+                  <FieldArray name="ingredients">
+                    {({ push, remove, form }) => (
+                      <div>
+                        <Modal show={showModal} onHide={() => setShowModal(false)}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>Bulk Add Ingredients</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                              <div className="mb-3">
+                                <label htmlFor="new-ingredients" className="form-label">Ingredients (one per line, format: amount unit item)</label>
+                                <textarea className="form-control" id="new-ingredients" rows={5} placeholder="e.g.&#10;1 cup sugar&#10;2 tbsp olive oil&#10;3 large eggs"></textarea>
+                              </div>
+                              <Button variant="primary" type="submit" onClick={addBulkIngredientSubmit(push, ingredientRegex)}>
+                                Add Ingredients
+                              </Button>
+                          </Modal.Body>
+                        </Modal>
+                        {form.values.ingredients && form.values.ingredients.length > 0 ? (
+                          form.values.ingredients.map((ingredient: object, index: number) => {
+                            console.log({ingredient, index, values: form.values});
+                            return (
+                            <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                                  <InputGroup>
+                                    <Input name={`ingredients.${index}.amount`} placeholder="Amount" />
+                                    <Input name={`ingredients.${index}.unit`} placeholder="Unit" />
+                                    <Input name={`ingredients.${index}.item`} placeholder="Item" />
+                                    <Button type="button" onClick={() => remove(index)} style={{ marginLeft: '8px' }}>Remove</Button>
+                                  </InputGroup>
                             </div>
-                            <Button variant="primary" type="submit" onClick={addBulkIngredientSubmit(push, ingredientRegex)}>
-                              Add Ingredients
-                            </Button>
-                        </Modal.Body>
-                      </Modal>
-                      {form.values.ingredients && form.values.ingredients.length > 0 ? (
-                        form.values.ingredients.map((ingredient: string, index: number) => (
-                          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                                <InputGroup>
-                                  <FormikField as={FieldComponent} name={`ingredients.${index}.amount`} placeholder="Amount" />
-                                  <FormikField as={FieldComponent} name={`ingredients.${index}.unit`} placeholder="Unit" />
-                                  <FormikField as={FieldComponent} name={`ingredients.${index}.item`} placeholder="Item" />
-                                  <button type="button" onClick={() => remove(index)} style={{ marginLeft: '8px' }}>Remove</button>
-                                </InputGroup>
-                          </div>
-                        ))
-                      ) : (
-                        <div>No ingredients added.</div>
-                      )}
-                      <Button type="button" onClick={() => push({ amount: '', unit: '', item: '' })}>Add Ingredient</Button>
-                    </div>
-                  )}
-                </FieldArray>
-
+                          )})
+                        ) : (
+                          <div>No ingredients added.</div>
+                        )}
+                        <Button type="button" onClick={() => push({ amount: '', unit: '', item: '' })}>Add Ingredient</Button>
+                      </div>
+                    )}
+                  </FieldArray>
+                </Container>
               </Tab>
               <Tab eventKey="instructions" title="Instructions">
-                <Field name="instructions" label="Instructions" field="textarea" />
+                <Field Component={Textarea} name="instructions" label="Instructions"  />
               </Tab>
               <Tab eventKey="notes" title="Notes">
-                <Field name="notes" label="Notes" field="textarea" />
+                <Field Component={Textarea} name="notes" label="Notes"  />
               </Tab>
             </Tabs>
-            <button type="submit">{buttonText}</button>
+            <Row>
+              <Col className="text-end">
+                {cancelUrl && <Button variant="secondary" onClick={() => navigate(cancelUrl)} className="ms-2">Cancel</Button>}
+                <Button type="submit">{buttonText}</Button>
+              </Col>
+            </Row>
+
+
           </form>
         </>
       )}
