@@ -35,16 +35,26 @@ router.get('/options', async (req, res, next) => {
 });
 
 router.post('/recipes', async (req, res, next) => {
+  let recipe
+  const recipeData = req.body;
   try {
-    const recipeData = req.body;
-    const recipe = await Recipe.create(recipeData, { include: 'ingredients' });
-    await addIngredients(recipeData, recipe.id);
-    await exportXml();
-    res.status(201).json(recipe);
+    recipe = await Recipe.create(recipeData);
+    console.log('Created recipe:', recipe.id, recipe.title);
   } catch (error) {
     console.error('Error creating recipe:', error);
     res.status(error.status || 500).json({ error: error.message });
+    return;
   }
+  try {
+    await addIngredients(recipeData, recipe.id);
+  } catch (error) {
+    console.error('Error adding ingredients:', error);
+    res.status(error.status || 500).json({ error: error.message });
+    return;
+  }
+  await exportXml();
+  res.status(201).json(recipe);
+
 });
 
 router.get('/export', async (req, res, next) => {
@@ -142,11 +152,17 @@ async function updateRecipeAndIngredients(recipeId, recipeData) {
 const addIngredients = async (recipeData, recipeId) => {
   if (recipeData.ingredients) {
     recipeData.ingredients.forEach(async (ingredient) => {
-      await Ingredient.create({
-        ...ingredient,
-        recipeId,
-        key: ingredient.key || ingredient.item.split(';')[0]
-      });
+      console.log('Adding ingredient:', ingredient);
+      try {
+        await Ingredient.create({
+          ...ingredient,
+          recipeId,
+          key: ingredient.key || ingredient.item.split(';')[0]
+        });
+      } catch (error) {
+        console.error('Error adding ingredient:', error);
+        throw error;
+      }
     });
   }
 }

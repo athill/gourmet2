@@ -101081,7 +101081,7 @@
 				</ingredient>
 			</ingredient-list>
 		</recipe>
-		<recipe id="719">
+		<recipe id="726">
 			<title>
 				Creamy One Pot Coconut Butternut Squash Ramen
 			</title>
@@ -101092,7 +101092,7 @@
 				Asian
 			</cuisine>
 			<link>
-				https://dishedbykate.com/butternut-squash-ramen/#tasty-recipes-249541-jump-target
+				https://dishedbykate.com/butternut-squash-ramen/
 			</link>
 			<rating>
 				4/5 stars
@@ -101104,7 +101104,7 @@
 				30 minutes
 			</cooktime>
 			<yields>
-				4 servings
+				6 servings
 			</yields>
 			<ingredient-list>
 				<ingredient>
@@ -101279,6 +101279,306 @@
 					</unit>
 					<item>
 						gochujang paste
+					</item>
+				</ingredient>
+			</ingredient-list>
+		</recipe>
+		<recipe id="727">
+			<title>
+				Sheet Pan Breakfast Burritos
+			</title>
+			<category>
+				Breakfast
+			</category>
+			<cuisine>
+				Mexican-American
+			</cuisine>
+			<link>
+				https://pinchofyum.com/sheet-pan-breakfast-burritos-with-creamy-chipotle-sauce
+			</link>
+			<rating>
+				4/5 stars
+			</rating>
+			<preptime>
+				10 minutes
+			</preptime>
+			<cooktime>
+				50 minutes
+			</cooktime>
+			<yields>
+				6 burritos
+			</yields>
+			<ingredient-list>
+				<ingredient>
+					<item>
+						half of a yellow onion; thinly sliced
+					</item>
+				</ingredient>
+				<ingredient>
+					<item>
+						salsa; or chipotle sauce for dipping (ingredients in notes!)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1 
+					</amount>
+					<unit>
+						can
+					</unit>
+					<item>
+						refried black beans; 14–ounce
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1 
+					</amount>
+					<unit>
+						large
+					</unit>
+					<item>
+						russet potato; peeled and cubed (about 2 heaping cups – see notes for using hasbrowns)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1 
+					</amount>
+					<unit>
+						tablespoon
+					</unit>
+					<item>
+						Better Than Bouillon Roasted Garlic Base; (divided)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1/2 
+					</amount>
+					<unit>
+						cup
+					</unit>
+					<item>
+						cilantro; chopped (optional)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1/2 
+					</amount>
+					<unit>
+						teaspoon
+					</unit>
+					<item>
+						coarse kosher salt
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1/2 
+					</amount>
+					<unit>
+						teaspoon
+					</unit>
+					<item>
+						coarse kosher salt
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						12 
+					</amount>
+					<item>
+						eggs
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						2 
+					</amount>
+					<item>
+						bell peppers; sliced
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						2 
+					</amount>
+					<unit>
+						tablespoons
+					</unit>
+					<item>
+						olive oil
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						6 
+					</amount>
+					<item>
+						tortillas; large  (more or less depending on size of your tortilla)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						7 
+					</amount>
+					<unit>
+						ounces
+					</unit>
+					<item>
+						smoked gouda cheese; shredded
+					</item>
+				</ingredient>
+			</ingredient-list>
+		</recipe>
+		<recipe id="728">
+			<title>
+				Sheet Pan Breakfast Burritos
+			</title>
+			<category>
+				Breakfast
+			</category>
+			<cuisine>
+				Mexican-American
+			</cuisine>
+			<link>
+				https://pinchofyum.com/sheet-pan-breakfast-burritos-with-creamy-chipotle-sauce
+			</link>
+			<rating>
+				4/5 stars
+			</rating>
+			<preptime>
+				10 minutes
+			</preptime>
+			<cooktime>
+				50 minutes
+			</cooktime>
+			<yields>
+				6 burritos
+			</yields>
+			<ingredient-list>
+				<ingredient>
+					<item>
+						half of a yellow onion; thinly sliced
+					</item>
+				</ingredient>
+				<ingredient>
+					<item>
+						salsa; or chipotle sauce for dipping (ingredients in notes!)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1 
+					</amount>
+					<unit>
+						can
+					</unit>
+					<item>
+						refried black beans; 14–ounce
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1 
+					</amount>
+					<unit>
+						large
+					</unit>
+					<item>
+						russet potato; peeled and cubed (about 2 heaping cups – see notes for using hasbrowns)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1 
+					</amount>
+					<unit>
+						tablespoon
+					</unit>
+					<item>
+						Better Than Bouillon Roasted Garlic Base; (divided)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1/2 
+					</amount>
+					<unit>
+						cup
+					</unit>
+					<item>
+						cilantro; chopped (optional)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1/2 
+					</amount>
+					<unit>
+						teaspoon
+					</unit>
+					<item>
+						coarse kosher salt
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						1/2 
+					</amount>
+					<unit>
+						teaspoon
+					</unit>
+					<item>
+						coarse kosher salt
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						12 
+					</amount>
+					<item>
+						eggs
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						2 
+					</amount>
+					<item>
+						bell peppers; sliced
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						2 
+					</amount>
+					<unit>
+						tablespoons
+					</unit>
+					<item>
+						olive oil
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						6 
+					</amount>
+					<item>
+						tortillas; large  (more or less depending on size of your tortilla)
+					</item>
+				</ingredient>
+				<ingredient>
+					<amount>
+						7 
+					</amount>
+					<unit>
+						ounces
+					</unit>
+					<item>
+						smoked gouda cheese; shredded
 					</item>
 				</ingredient>
 			</ingredient-list>

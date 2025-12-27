@@ -58,8 +58,8 @@ const IndexPage = () => {
             return link
           },
           sort: (a, b) => {
-            const linkA = a.link.replace(urlDisplay, '$2');
-            const linkB = b.link.replace(urlDisplay, '$2');
+            const linkA = a.link ? a.link.replace(urlDisplay, '$2') : '';
+            const linkB = b.link ? b.link.replace(urlDisplay, '$2') : '';
             return linkA.localeCompare(linkB);
           }
         },
