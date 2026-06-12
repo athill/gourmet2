@@ -52,7 +52,7 @@ router.post('/recipes', async (req, res, next) => {
     res.status(error.status || 500).json({ error: error.message });
     return;
   }
-  await exportXml();
+  await exportJson();
   res.status(201).json(recipe);
 
 });
@@ -93,7 +93,7 @@ router.put('/recipes/:id', async (req, res, next) => {
   }
   console.log('Updating recipe:', recipeId, recipeData);
   await updateRecipeAndIngredients(recipeId, recipeData);
-  await exportXml();
+  await exportJson();
   try {
     recipe = await Recipe.findByPk(recipeId, { include: 'ingredients' }); // Reload with ingredients
     res.json(recipe);
@@ -176,6 +176,18 @@ const exportXml = async () => {
       console.error('Error writing XML file:', err);
     } else {
       console.log(`Recipes exported to ${process.env.RECIPES_XML}`);
+    }
+  })
+};
+
+const exportJson = async () => {
+  const recipes = await Recipe.findAll({ include: 'ingredients' });
+  const json = JSON.stringify(recipes);
+  writeFile(process.env.RECIPES_JSON, json, (err) => {
+    if (err) {
+      console.error('Error writing JSON file:', err);
+    } else {
+      console.log(`Recipes exported to ${process.env.RECIPES_JSON}`);
     }
   })
 };
