@@ -9,13 +9,5 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
-  ],
-  server: {
-    proxy: {
-        '/api': {
-        target: 'http://localhost:4242',
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
+  ]
 })

@@ -1,13 +1,16 @@
-import 'dotenv/config'
+import path from 'path';
+import {config} from 'dotenv'
+config({
+  path: path.resolve(process.cwd(), './backend/.env'),
+  quiet: true,
+});
+
 import createError  from 'http-errors';
 import express  from 'express';
-import path  from 'path';
 import cookieParser  from 'cookie-parser';
 import logger  from 'morgan';
 import sequelize from './sequelize.js';
 import initializeDatabase from './initializeDatabase.js';
-
-
 import indexRouter  from './routes/index.js';
 const __dirname = path.resolve();
 
@@ -26,7 +29,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Static files will be served from the 'dist' directory, which is where Vite outputs the built frontend assets
+app.use(express.static(path.join(process.cwd(), 'dist')));
 
 app.use('/', indexRouter);
 

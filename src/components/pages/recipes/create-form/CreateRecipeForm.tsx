@@ -24,7 +24,7 @@ const CreateRecipeForm = () => {
 
   const onSubmit = async (values: typeof initialValues) => {
     try {
-      const result = await fetch('/api/recipes', {
+      const result = await fetch('/recipes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ const IndexPage = () => {
   useEffect(() => {
     const getRecipes = async () => {
       try {
-        const response = await fetch('/api');
+        const response = await fetch('/recipes');
         const data = await response.json();
         console.log('Recipes:', data);
         setRecipes(data);
@@ -24,7 +24,7 @@ const IndexPage = () => {
       return;
     }
     try {
-      const response = await fetch(`/api/recipes/${entity.id}`, {
+      const response = await fetch(`/recipes/${entity.id}`, {
         method: 'DELETE',
       });
       if (response.ok) {

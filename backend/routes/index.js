@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 var router = express.Router();
 import Exporter from '../export.js';
 import { writeFile } from 'fs';
@@ -8,8 +9,8 @@ import Recipe from '../models/Recipe.js';
 import CategoriesView from '../models/CategoriesView.js';
 import CuisinesView from '../models/CuisinesView.js';
 
-/* GET home page. */
-router.get('/', async (req, res, next) => {
+
+router.get('/recipes', async (req, res, next) => {
   const recipes = await Recipe.findAll({ include: 'ingredients' })
   res.json(recipes);
 });

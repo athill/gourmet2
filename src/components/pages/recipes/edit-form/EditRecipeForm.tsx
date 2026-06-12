@@ -10,7 +10,7 @@ const EditRecipeForm = () => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const response = await fetch(`/api/recipes/${id}`);
+      const response = await fetch(`/recipes/${id}`);
       const data = await response.json();
       Object.keys(data).forEach(key => {
         if (data[key] === null) {
@@ -25,7 +25,7 @@ const EditRecipeForm = () => {
   const onSubmit = async (values: typeof initialValues) => {
     console.log('Submitting values:', values);
     try {
-      await fetch(`/api/recipes/${id}`, {
+      await fetch(`/recipes/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ const ViewRecipe = () => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const response = await fetch(`/api/recipes/${id}`);
+      const response = await fetch(`/recipes/${id}`);
       const data = await response.json();
       // Handle the fetched recipe data
       setRecipe(data);
